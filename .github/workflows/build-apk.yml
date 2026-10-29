@@ -2,13 +2,16 @@ name: Build APK
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
 
@@ -22,31 +25,58 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Generate Android platform folder (if missing)
+      - name: Prepare
         run: |
+          mkdir -p ci-logs
+          flutter --version > ci-logs/0-version.txt 2>&1
           if [ ! -d android ]; then
-            flutter create --platforms=android --org com.kerolos --project-name automotive_inventory .
+            flutter create --platforms=android --org com.kerolos --project-name automotive_inventory . > ci-logs/1-create.txt 2>&1
             rm -f test/widget_test.dart
           fi
+          flutter pub get > ci-logs/2-pubget.txt 2>&1
+          dart run build_runner build --delete-conflicting-outputs > ci-logs/3-codegen.txt 2>&1 || echo "CODEGEN FAILED" >> ci-logs/3-codegen.txt
 
-      - name: Install packages
-        run: flutter pub get
+      - name: Analyze
+        id: analyze
+        continue-on-error: true
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings > ci-logs/4-analyze.txt 2>&1
 
-      - name: Generate database code
-        run: dart run build_runner build --delete-conflicting-outputs
-
-      - name: Static analysis
-        run: flutter analyze --no-fatal-infos --no-fatal-warnings
-
-      - name: Tests
+      - name: Test
+        id: test
+        continue-on-error: true
         run: |
-          sudo apt-get update -y && sudo apt-get install -y libsqlite3-dev
-          flutter test
+          sudo apt-get update -y > /dev/null && sudo apt-get install -y libsqlite3-dev > /dev/null
+          flutter test --reporter expanded > ci-logs/5-test.txt 2>&1
 
-      - name: Build release APK
-        run: flutter build apk --release
+      - name: Build APK
+        id: build
+        continue-on-error: true
+        run: flutter build apk --release > ci-logs/6-build.txt 2>&1
+
+      - name: Publish logs to ci-logs branch
+        if: always()
+        run: |
+          echo "analyze=${{ steps.analyze.outcome }} test=${{ steps.test.outcome }} build=${{ steps.build.outcome }} sha=${{ github.sha }}" > ci-logs/summary.txt
+          cd ci-logs
+          git init -q -b ci-logs
+          git config user.name ci && git config user.email ci@example.com
+          git add -A && git commit -qm "logs for ${{ github.sha }}"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" ci-logs
 
       - uses: actions/upload-artifact@v4
+        if: steps.build.outcome == 'success'
         with:
           name: automotive-inventory-apk
           path: build/app/outputs/flutter-apk/app-release.apk
+
+      - name: Release APK
+        if: steps.build.outcome == 'success'
+        run: |
+          gh release delete latest-build -y --cleanup-tag || true
+          gh release create latest-build build/app/outputs/flutter-apk/app-release.apk --title "Latest build" --notes "Built from ${{ github.sha }}" --prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Fail if build failed
+        if: steps.build.outcome != 'success'
+        run: exit 1

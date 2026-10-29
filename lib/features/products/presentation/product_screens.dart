@@ -1,4 +1,4 @@
-import 'package:drift/drift.dart' show OrderingTerm, QueryRow, Variable;
+import 'package:drift/drift.dart' show BooleanExpressionOperators, OrderingTerm, QueryRow, StringExpressionOperators, Variable;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

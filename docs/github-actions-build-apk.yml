@@ -37,6 +37,7 @@ jobs:
             { echo 'apply(from = "../tool/compile_sdk_fix.gradle")'; cat android/build.gradle.kts; } > /tmp/b.kts && mv /tmp/b.kts android/build.gradle.kts
           fi
           cp android/build.gradle.kts ci-logs/android-build.gradle.kts
+          rsync -a --exclude build --exclude .gradle --exclude local.properties --exclude GeneratedPluginRegistrant.java android/ ci-logs/android-generated/
           flutter pub get > ci-logs/2-pubget.txt 2>&1
           dart run build_runner build --delete-conflicting-outputs > ci-logs/3-codegen.txt 2>&1 || echo "CODEGEN FAILED" >> ci-logs/3-codegen.txt
 

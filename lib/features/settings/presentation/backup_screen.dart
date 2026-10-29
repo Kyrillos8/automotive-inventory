@@ -68,7 +68,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
   }
 
   Future<void> _pickAndRestore() async {
-    final r = await FilePicker.platform.pickFiles(type: FileType.any);
+    final r = await FilePicker.pickFiles(type: FileType.any);
     final path = r?.files.single.path;
     if (path == null || !mounted) return;
     await _restore(File(path));

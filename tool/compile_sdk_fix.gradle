@@ -1,0 +1,9 @@
+// Forces Android library plugins (e.g. file_picker 8) to compile against a recent SDK,
+// required by newer AndroidX dependencies. Applied from android/build.gradle.kts.
+subprojects { p ->
+    p.afterEvaluate {
+        if (p.plugins.hasPlugin('com.android.library')) {
+            p.android { compileSdkVersion 36 }
+        }
+    }
+}

@@ -21,7 +21,7 @@ dependencies:
   path: ^1.9.0
   crypto: ^3.0.6
   share_plus: ^10.1.4
-  file_picker: ^11.0.3
+  file_picker: ^8.1.4
 
 dev_dependencies:
   flutter_test:

@@ -1,0 +1,28 @@
+00:00 +0: loading /home/runner/work/automotive-inventory/automotive-inventory/test/money_test.dart
+00:00 +0: /home/runner/work/automotive-inventory/automotive-inventory/test/money_test.dart: Money parses western, arabic-indic and grouped input
+00:00 +1: /home/runner/work/automotive-inventory/automotive-inventory/test/money_test.dart: Money price x quantity is exact (Test F/G totals)
+00:00 +2: /home/runner/work/automotive-inventory/automotive-inventory/test/money_test.dart: Money fractional quantity rounds half away from zero
+00:00 +3: /home/runner/work/automotive-inventory/automotive-inventory/test/money_test.dart: Money partial payment balance (Test I)
+00:00 +4: /home/runner/work/automotive-inventory/automotive-inventory/test/money_test.dart: Money formatting is separate from value
+00:00 +5: /home/runner/work/automotive-inventory/automotive-inventory/test/money_test.dart: Qty parse and print
+00:00 +6: /home/runner/work/automotive-inventory/automotive-inventory/test/search_normalizer_test.dart: alef forms and diacritics are unified
+00:00 +7: /home/runner/work/automotive-inventory/automotive-inventory/test/search_normalizer_test.dart: ta marbuta / alef maqsura
+00:00 +8: /home/runner/work/automotive-inventory/automotive-inventory/test/search_normalizer_test.dart: digits and case
+00:00 +9: /home/runner/work/automotive-inventory/automotive-inventory/test/search_normalizer_test.dart: terms split
+00:00 +10: /home/runner/work/automotive-inventory/automotive-inventory/test/search_normalizer_test.dart: manufacturer codes kept intact
+00:00 +11: /home/runner/work/automotive-inventory/automotive-inventory/test/invoice_draft_test.dart: Test F: wholesale customer gets wholesale price, total 600
+00:00 +12: /home/runner/work/automotive-inventory/automotive-inventory/test/invoice_draft_test.dart: Test G: retail customer gets retail price, total 700
+00:00 +13: /home/runner/work/automotive-inventory/automotive-inventory/test/invoice_draft_test.dart: walk-in defaults to retail
+00:00 +14: /home/runner/work/automotive-inventory/automotive-inventory/test/invoice_draft_test.dart: Test H: mode switch updates defaults but never silently drops manual prices
+00:00 +15: /home/runner/work/automotive-inventory/automotive-inventory/test/invoice_draft_test.dart: setting a price equal to the default is not marked manual
+00:00 +16: /home/runner/work/automotive-inventory/automotive-inventory/test/invoice_draft_test.dart: discounts and validation
+00:00 +17: /home/runner/work/automotive-inventory/automotive-inventory/test/invoice_draft_test.dart: adding the same product merges quantity
+00:01 +18: /home/runner/work/automotive-inventory/automotive-inventory/test/database_test.dart: setup persists settings
+00:02 +19: /home/runner/work/automotive-inventory/automotive-inventory/test/database_test.dart: Test A/B/C/D: product, compatibility, search, tags
+00:02 +20: /home/runner/work/automotive-inventory/automotive-inventory/test/database_test.dart: Test E: opening stock once only
+00:02 +21: /home/runner/work/automotive-inventory/automotive-inventory/test/database_test.dart: Test F/I + negative stock + double post protection
+00:02 +22: /home/runner/work/automotive-inventory/automotive-inventory/test/database_test.dart: Test J: purchase order and partial receipts
+00:02 +23: /home/runner/work/automotive-inventory/automotive-inventory/test/database_test.dart: Test K + O: returns, damaged goods, reconciliation
+00:02 +24: /home/runner/work/automotive-inventory/automotive-inventory/test/database_test.dart: void sale restores stock
+00:02 +25: /home/runner/work/automotive-inventory/automotive-inventory/test/database_test.dart: foreign keys enabled and integrity ok
+00:02 +26: All tests passed!

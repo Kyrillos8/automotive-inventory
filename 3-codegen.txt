@@ -1,0 +1,270 @@
+  1s compiling builders/aot
+  2s compiling builders/aot
+  3s compiling builders/aot
+  4s compiling builders/aot
+  5s compiling builders/aot
+  6s compiling builders/aot
+  7s compiling builders/aot
+  8s compiling builders/aot
+  9s compiling builders/aot
+  10s compiling builders/aot
+  11s compiling builders/aot
+  13s compiling builders/aot
+  14s compiling builders/aot
+  15s compiling builders/aot
+  16s compiling builders/aot
+  17s compiling builders/aot
+  18s compiling builders/aot
+  19s compiling builders/aot
+  20s compiling builders/aot
+  21s compiling builders/aot
+  22s compiling builders/aot
+  23s compiling builders/aot
+  24s compiling builders/aot
+  25s compiling builders/aot
+  26s compiling builders/aot
+  27s compiling builders/aot
+  28s compiling builders/aot
+  29s compiling builders/aot
+  30s compiling builders/aot
+  31s compiling builders/aot
+  32s compiling builders/aot
+  33s compiling builders/aot
+W These options have been removed and were ignored: --delete-conflicting-outputs
+  0s drift_dev on 172 inputs; lib/app/app.dart
+W SDK language version 3.13.0 is newer than `analyzer` language version 3.12.0. Run `flutter packages upgrade`.
+  10s drift_dev on 172 inputs: 1 output; spent 7s analyzing, 2s resolving, 1s sdk; lib/app/router.dart
+  15s drift_dev on 172 inputs: 48 output; spent 12s analyzing, 2s resolving, 1s sdk; lib/core/database/providers.dart
+W drift_dev on lib/core/database/tables.dart:
+  line 66, column 61 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+     ╷
+  66 │   IntColumn get parentId => integer().nullable().references(Categories, #id)();
+     │                                                             ^^^^^^^^^^
+     ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 86, column 55 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+     ╷
+  86 │   IntColumn get productTypeId => integer().references(ProductTypes, #id)();
+     │                                                       ^^^^^^^^^^^^
+     ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 87, column 60 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+     ╷
+  87 │   IntColumn get brandId => integer().nullable().references(Brands, #id)();
+     │                                                            ^^^^^^
+     ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 88, column 63 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+     ╷
+  88 │   IntColumn get categoryId => integer().nullable().references(Categories, #id)();
+     │                                                               ^^^^^^^^^^
+     ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 90, column 52 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+     ╷
+  90 │   IntColumn get baseUnitId => integer().references(Units, #id)();
+     │                                                    ^^^^^
+     ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 118, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  118 │   IntColumn get productId => integer().references(Products, #id, onDelete: KeyAction.cascade)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 136, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  136 │   IntColumn get productId => integer().references(Products, #id, onDelete: KeyAction.cascade)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 137, column 47 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  137 │   IntColumn get tagId => integer().references(Tags, #id)();
+      │                                               ^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 154, column 48 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  154 │   IntColumn get makeId => integer().references(VehicleMakes, #id)();
+      │                                                ^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 165, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  165 │   IntColumn get productId => integer().references(Products, #id, onDelete: KeyAction.cascade)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 166, column 56 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  166 │   IntColumn get vehicleModelId => integer().references(VehicleModels, #id)();
+      │                                                        ^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 187, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  187 │   IntColumn get productId => integer().references(Products, #id)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 199, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  199 │   IntColumn get productId => integer().references(Products, #id)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 228, column 54 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  228 │   IntColumn get adjustmentId => integer().references(StockAdjustments, #id)();
+      │                                                      ^^^^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 229, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  229 │   IntColumn get productId => integer().references(Products, #id)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 244, column 65 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  244 │   IntColumn get adjustmentId => integer().nullable().references(StockAdjustments, #id)();
+      │                                                                 ^^^^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 250, column 54 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  250 │   IntColumn get stockCountId => integer().references(StockCounts, #id)();
+      │                                                      ^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 251, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  251 │   IntColumn get productId => integer().references(Products, #id)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 285, column 52 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  285 │   IntColumn get supplierId => integer().references(Suppliers, #id)();
+      │                                                    ^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 300, column 57 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  300 │   IntColumn get purchaseOrderId => integer().references(PurchaseOrders, #id)();
+      │                                                         ^^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 301, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  301 │   IntColumn get productId => integer().references(Products, #id)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 313, column 68 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  313 │   IntColumn get purchaseOrderId => integer().nullable().references(PurchaseOrders, #id)();
+      │                                                                    ^^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 314, column 52 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  314 │   IntColumn get supplierId => integer().references(Suppliers, #id)();
+      │                                                    ^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 325, column 56 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  325 │   IntColumn get goodsReceiptId => integer().references(GoodsReceipts, #id)();
+      │                                                        ^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 326, column 72 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  326 │   IntColumn get purchaseOrderLineId => integer().nullable().references(PurchaseOrderLines, #id)();
+      │                                                                        ^^^^^^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 327, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  327 │   IntColumn get productId => integer().references(Products, #id)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 337, column 52 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  337 │   IntColumn get supplierId => integer().references(Suppliers, #id)();
+      │                                                    ^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 338, column 67 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  338 │   IntColumn get goodsReceiptId => integer().nullable().references(GoodsReceipts, #id)();
+      │                                                                   ^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 348, column 58 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  348 │   IntColumn get supplierReturnId => integer().references(SupplierReturns, #id)();
+      │                                                          ^^^^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 349, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  349 │   IntColumn get productId => integer().references(Products, #id)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 379, column 63 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  379 │   IntColumn get customerId => integer().nullable().references(Customers, #id)();
+      │                                                               ^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 398, column 48 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  398 │   IntColumn get saleId => integer().references(Sales, #id, onDelete: KeyAction.cascade)();
+      │                                                ^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 399, column 51 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  399 │   IntColumn get productId => integer().references(Products, #id)();
+      │                                                   ^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 413, column 48 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  413 │   IntColumn get saleId => integer().references(Sales, #id)();
+      │                                                ^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 419, column 70 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  419 │   IntColumn get reversesPaymentId => integer().nullable().references(SalePayments, #id)();
+      │                                                                      ^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 428, column 48 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  428 │   IntColumn get saleId => integer().references(Sales, #id)();
+      │                                                ^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 442, column 55 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  442 │   IntColumn get salesReturnId => integer().references(SalesReturns, #id)();
+      │                                                       ^^^^^^^^^^^^
+      ╵
+W drift_dev on lib/core/database/tables.dart:
+  line 443, column 52 of package:automotive_inventory/core/database/tables.dart: This parameter should be a simple class name
+      ╷
+  443 │   IntColumn get saleLineId => integer().references(SaleLines, #id)();
+      │                                                    ^^^^^^^^^
+      ╵
+  20s drift_dev on 172 inputs: 50 output; spent 17s analyzing, 2s resolving, 1s sdk; lib/core/errors/business_exception.dart
+  20s drift_dev on 172 inputs: 43 skipped, 86 output, 43 no-op; spent 17s analyzing, 2s resolving, 1s sdk
+  0s source_gen:combining_builder on 86 inputs; lib/app/app.dart
+  0s source_gen:combining_builder on 86 inputs: 43 skipped, 1 output, 42 no-op
+  Built with build_runner/aot in 54s; wrote 87 outputs.

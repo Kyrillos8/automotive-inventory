@@ -67,6 +67,8 @@ class ProductInput {
   double? pinDiameterMm;
   double? compressionHeightMm;
   String? labelNotes;
+  bool needsReview = false;
+  String? reviewNote;
   List<int> tagIds = [];
   List<CompatInput> compat = [];
   List<SpecInput> specs = [];
@@ -88,8 +90,10 @@ class ProductQuery {
   final int limit;
   final int offset;
   final int? productId;
+  final bool needsReviewOnly;
   const ProductQuery({
     this.productId,
+    this.needsReviewOnly = false,
     this.text = '',
     this.productTypeId,
     this.brandId,
@@ -146,6 +150,7 @@ class ProductQuery {
       modelId != null ||
       (engineFilter?.isNotEmpty ?? false) ||
       stockStatus != null ||
+      needsReviewOnly ||
       includeArchived;
 }
 
@@ -173,7 +178,9 @@ class ProductListItem {
   final List<String> tags;
   final String? vehicles;
   final String unitName;
+  final bool needsReview;
   ProductListItem({
+    this.needsReview = false,
     required this.id,
     required this.sku,
     required this.nameAr,
@@ -485,6 +492,8 @@ class ProductRepository {
         pinDiameterMm: Value(p.pinDiameterMm),
         compressionHeightMm: Value(p.compressionHeightMm),
         labelNotes: Value(_n(p.labelNotes)),
+        needsReview: Value(p.needsReview),
+        reviewNote: Value(p.needsReview ? _n(p.reviewNote) : null),
         updatedAt: Value(DateTime.now()),
       );
       int id;
@@ -568,6 +577,8 @@ class ProductRepository {
       ..pinDiameterMm = p.pinDiameterMm
       ..compressionHeightMm = p.compressionHeightMm
       ..labelNotes = p.labelNotes
+      ..needsReview = p.needsReview
+      ..reviewNote = p.reviewNote
       ..tagIds = tags.map((t) => t.tagId).toList()
       ..specs = specs.map((s) => SpecInput(s.specKey, s.textValue)).toList()
       ..compat = [
@@ -644,6 +655,7 @@ class ProductRepository {
     final where = <String>[];
     final vars = <Variable>[];
     if (!q.includeArchived) where.add('p.is_active = 1');
+    if (q.needsReviewOnly) where.add('p.needs_review = 1');
     if (q.productId != null) {
       where.add('p.id = ?');
       vars.add(Variable.withInt(q.productId!));
@@ -715,7 +727,7 @@ class ProductRepository {
     final sql = '''
       SELECT p.id, p.internal_sku, p.name_ar, p.name_en, p.tc_code, p.barcode, p.diameter_mm, p.size_designation,
              p.ring_dimensions, p.engine_capacity, p.purchase_price, p.wholesale_price, p.retail_price,
-             p.minimum_stock, p.is_active,
+             p.minimum_stock, p.is_active, p.needs_review,
              pt.name_ar AS type_name, pt.kind AS type_kind, b.name_ar AS brand_name, u.name_ar AS unit_name,
              COALESCE(sb.quantity_on_hand, 0) AS qty, COALESCE(sb.avg_cost, 0) AS avg_cost,
              (SELECT GROUP_CONCAT(t.name, '|') FROM product_tags x JOIN tags t ON t.id = x.tag_id WHERE x.product_id = p.id) AS tags,
@@ -765,7 +777,21 @@ class ProductRepository {
         tags: (r.readNullable<String>('tags') ?? '').split('|').where((e) => e.isNotEmpty).toList(),
         vehicles: r.readNullable<String>('vehicles'),
         unitName: r.read<String>('unit_name'),
+        needsReview: r.read<bool>('needs_review'),
       );
+
+  /// Number of products flagged for review (drives the notification bell).
+  Stream<int> watchReviewCount() => db
+      .customSelect('SELECT COUNT(*) AS c FROM products WHERE needs_review = 1 AND is_active = 1',
+          readsFrom: {db.products})
+      .watch()
+      .map((r) => r.first.read<int>('c'));
+
+  Future<void> markReviewed(int id) async {
+    await (db.update(db.products)..where((t) => t.id.equals(id))).write(
+        ProductsCompanion(needsReview: const Value(false), reviewNote: const Value(null), updatedAt: Value(DateTime.now())));
+    await db.logActivity('review', 'product', 'تمت مراجعة منتج', entityId: id);
+  }
 
   Future<ProductListItem?> item(int id) async {
     final r = await search(ProductQuery(includeArchived: true, productId: id, limit: 1));

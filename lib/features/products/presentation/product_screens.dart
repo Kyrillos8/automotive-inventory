@@ -24,6 +24,7 @@ class ProductListScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(title: const Text('المنتجات'), actions: [
+        ReviewBell(color: Theme.of(context).colorScheme.onPrimary),
         IconButton(
           tooltip: 'الوسوم',
           icon: const Icon(Icons.sell_outlined),
@@ -148,6 +149,38 @@ class _ProductDetailsScreenState extends ConsumerState<ProductDetailsScreen> {
           body: RefreshIndicator(
             onRefresh: () async => reload(),
             child: ListView(padding: const EdgeInsets.all(12), children: [
+              if (p.needsReview)
+                Card(
+                  color: Colors.orange.shade50,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const Row(children: [
+                        Icon(Icons.error_outline, color: Colors.orange),
+                        SizedBox(width: 8),
+                        Text('هذا المنتج يحتاج مراجعة', style: TextStyle(fontWeight: FontWeight.bold)),
+                      ]),
+                      if (p.reviewNote != null) Padding(padding: const EdgeInsets.only(top: 6), child: Text(p.reviewNote!)),
+                      const SizedBox(height: 8),
+                      Wrap(spacing: 8, children: [
+                        FilledButton.tonalIcon(
+                          icon: const Icon(Icons.edit),
+                          label: const Text('تعديل البيانات'),
+                          onPressed: () => openProductForm(context, id: p.id),
+                        ),
+                        FilledButton.icon(
+                          icon: const Icon(Icons.task_alt),
+                          label: const Text('تمت المراجعة'),
+                          onPressed: () async {
+                            await runAction(context, () => ref.read(productRepositoryProvider).markReviewed(p.id),
+                                success: 'تم إزالة المنتج من قائمة المراجعة');
+                            if (context.mounted) bumpCatalog(ref);
+                          },
+                        ),
+                      ]),
+                    ]),
+                  ),
+                ),
               Card(
                 child: Padding(
                   padding: const EdgeInsets.all(12),

@@ -65,6 +65,7 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
     c('pin').text = p.pinDiameterMm == null ? '' : formatMm(p.pinDiameterMm!);
     c('comp').text = p.compressionHeightMm == null ? '' : formatMm(p.compressionHeightMm!);
     c('label').text = p.labelNotes ?? '';
+    c('review').text = p.reviewNote ?? '';
     if (mounted) setState(() => _p = p);
   }
 
@@ -109,7 +110,8 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
       ..engineCode = c('engine').text
       ..pinDiameterMm = _dbl('pin')
       ..compressionHeightMm = _dbl('comp')
-      ..labelNotes = c('label').text;
+      ..labelNotes = c('label').text
+      ..reviewNote = c('review').text;
     if (p.retailPrice > 0 && p.wholesalePrice > p.retailPrice) {
       final ok = await confirm(context, 'تنبيه', 'سعر الجملة أعلى من سعر القطاعي. هل تريد الحفظ؟', ok: 'حفظ');
       if (!ok) return;
@@ -361,6 +363,16 @@ class _ProductFormScreenState extends ConsumerState<ProductFormScreen> {
 
       const SectionTitle('٩. ملاحظات'),
       TextFormField(controller: c('notes'), decoration: const InputDecoration(labelText: 'ملاحظات داخلية'), maxLines: 3),
+      SwitchListTile(
+        contentPadding: EdgeInsets.zero,
+        secondary: Icon(Icons.error_outline, color: p.needsReview ? Colors.orange : null),
+        title: const Text('يحتاج مراجعة'),
+        subtitle: const Text('يظهر في قائمة التنبيهات حتى تلغي هذا الاختيار'),
+        value: p.needsReview,
+        onChanged: (v) => setState(() => p.needsReview = v),
+      ),
+      if (p.needsReview)
+        TextFormField(controller: c('review'), decoration: const InputDecoration(labelText: 'سبب المراجعة'), maxLines: 3),
       const SizedBox(height: 20),
       FilledButton.icon(onPressed: _saving ? null : _save, icon: const Icon(Icons.save), label: const Text('حفظ المنتج')),
     ]);

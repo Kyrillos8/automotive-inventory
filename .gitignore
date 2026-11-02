@@ -7,3 +7,7 @@ build/
 *.iml
 android/local.properties
 android/.gradle/
+
+# Real business data must never be committed (public repo)
+catalog_import*.json
+*.xlsx

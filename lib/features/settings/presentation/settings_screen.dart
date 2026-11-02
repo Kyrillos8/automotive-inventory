@@ -5,6 +5,7 @@ import '../../../core/security/pin_service.dart';
 import '../../../core/widgets/common.dart';
 import '../../../core/widgets/state_views.dart';
 import '../../inventory/presentation/stock_screens.dart';
+import '../../products/presentation/catalog_import_screen.dart';
 import '../../products/presentation/pickers.dart';
 import '../../products/product_providers.dart';
 import '../../products/product_repository.dart';
@@ -134,6 +135,14 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                 await runAction(context, () => ref.read(productRepositoryProvider).rebuildAllSearchText(), success: 'تمت إعادة البناء');
                 if (context.mounted) bumpCatalog(ref);
               },
+            ),
+            const SectionTitle('البيانات'),
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: const Icon(Icons.upload_file),
+              title: const Text('استيراد كتالوج من ملف'),
+              subtitle: const Text('إضافة الشنابر والبساتم من ملف الكتالوج'),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const CatalogImportScreen())),
             ),
             const SectionTitle('القوائم'),
             ListTile(

@@ -105,6 +105,9 @@ class Products extends Table {
   RealColumn get pinDiameterMm => real().nullable()();
   RealColumn get compressionHeightMm => real().nullable()();
   TextColumn get labelNotes => text().nullable()();
+  /// Flagged for the admin to check (imported data, unclear values...). Shown in the review inbox.
+  BoolColumn get needsReview => boolean().withDefault(const Constant(false))();
+  TextColumn get reviewNote => text().nullable()();
   /// Normalized concatenation of every searchable field (maintained by ProductRepository).
   TextColumn get searchText => text().withDefault(const Constant(''))();
   DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();

@@ -61,7 +61,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     ref.listen(catalogVersionProvider, (_, __) => setState(() => _v++));
     final settings = ref.watch(settingsControllerProvider).valueOrNull;
     return Scaffold(
-      appBar: AppBar(title: Text(settings?.businessName.isNotEmpty == true ? settings!.businessName : 'الرئيسية')),
+      appBar: AppBar(
+        title: Text(settings?.businessName.isNotEmpty == true ? settings!.businessName : 'الرئيسية'),
+        actions: [ReviewBell(color: Theme.of(context).colorScheme.onPrimary)],
+      ),
       body: FutureLoader<_DashData>(
         reloadKey: _v,
         load: _load,

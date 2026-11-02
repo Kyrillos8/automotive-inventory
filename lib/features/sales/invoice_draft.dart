@@ -141,6 +141,7 @@ class InvoiceDraft {
     for (final l in lines) {
       if (l.quantity <= 0) errors.add('كمية غير صحيحة: ${l.name}');
       if (l.unitPrice < 0) errors.add('سعر غير صحيح: ${l.name}');
+      if (l.unitPrice == 0) errors.add('سعر البيع صفر للمنتج ${l.name} — أدخل السعر يدويًا أو عدّل سعر المنتج');
       if (l.discount < 0 || l.discount > l.gross) errors.add('خصم غير صحيح: ${l.name}');
     }
     if (invoiceDiscount < 0 || grandTotal < 0) errors.add('خصم الفاتورة أكبر من الإجمالي');

@@ -8,6 +8,7 @@ import '../../../core/widgets/common.dart';
 import '../../../core/widgets/state_views.dart';
 import '../product_providers.dart';
 import '../product_repository.dart';
+import 'product_screens.dart';
 
 /// THE reusable product search component. Used by the catalog, inventory,
 /// sales invoices, purchase orders, receipts, stock forms and stocktaking.
@@ -80,6 +81,7 @@ class _ProductSearchViewState extends ConsumerState<ProductSearchView> {
         stockStatus: _q.stockStatus,
         includeArchived: _q.includeArchived,
         sort: _q.sort,
+        needsReviewOnly: _q.needsReviewOnly,
         limit: 50,
         offset: more ? _items.length : 0,
       );
@@ -211,6 +213,11 @@ class ProductTile extends StatelessWidget {
                   if (p.nameEn != null) Text(p.nameEn!, style: muted, textDirection: TextDirection.ltr),
                 ]),
               ),
+              if (p.needsReview)
+                const Padding(
+                  padding: EdgeInsetsDirectional.only(end: 6),
+                  child: Tooltip(message: 'يحتاج مراجعة', child: Icon(Icons.error_outline, color: Colors.orange, size: 20)),
+                ),
               if (!p.isActive)
                 const Padding(padding: EdgeInsetsDirectional.only(end: 6), child: Chip(label: Text('مؤرشف'), visualDensity: VisualDensity.compact)),
               StockBadge(quantity: p.quantity, status: p.stockStatus, unit: p.unitName),
@@ -278,6 +285,7 @@ class _ProductFilterSheetState extends ConsumerState<ProductFilterSheet> {
   late final engine = TextEditingController(text: widget.initial.engineFilter ?? '');
   late String? stock = widget.initial.stockStatus;
   late bool archived = widget.initial.includeArchived;
+  late bool needsReview = widget.initial.needsReviewOnly;
   late String sort = widget.initial.sort;
 
   @override
@@ -370,6 +378,12 @@ class _ProductFilterSheetState extends ConsumerState<ProductFilterSheet> {
         ]),
         SwitchListTile(
           contentPadding: EdgeInsets.zero,
+          title: const Text('تحتاج مراجعة فقط'),
+          value: needsReview,
+          onChanged: (v) => setState(() => needsReview = v),
+        ),
+        SwitchListTile(
+          contentPadding: EdgeInsets.zero,
           title: const Text('إظهار المنتجات المؤرشفة'),
           value: archived,
           onChanged: (v) => setState(() => archived = v),
@@ -403,6 +417,7 @@ class _ProductFilterSheetState extends ConsumerState<ProductFilterSheet> {
                   engineFilter: engine.text.trim().isEmpty ? null : engine.text.trim(),
                   stockStatus: stock,
                   includeArchived: archived,
+                  needsReviewOnly: needsReview,
                   sort: sort,
                 ),
               ),
@@ -424,4 +439,41 @@ Future<ProductListItem?> pickProduct(BuildContext context, {String title = 'اخ
       body: ProductSearchView(autofocus: true, onTap: (p) => Navigator.pop(c, p)),
     ),
   ));
+}
+
+/// Bell with a badge counting products flagged for review. Opens the review inbox.
+class ReviewBell extends ConsumerWidget {
+  const ReviewBell({super.key, this.color});
+  final Color? color;
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final n = ref.watch(reviewCountProvider).valueOrNull ?? 0;
+    return IconButton(
+      tooltip: 'منتجات تحتاج مراجعة',
+      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ReviewInboxScreen())),
+      icon: Badge(
+        isLabelVisible: n > 0,
+        label: Text(n > 999 ? '999+' : '$n'),
+        child: Icon(n > 0 ? Icons.notifications_active : Icons.notifications_none, color: color),
+      ),
+    );
+  }
+}
+
+/// All active products flagged "needs review" (imported unclear data, missing prices...).
+class ReviewInboxScreen extends ConsumerWidget {
+  const ReviewInboxScreen({super.key});
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final n = ref.watch(reviewCountProvider).valueOrNull ?? 0;
+    return Scaffold(
+      appBar: AppBar(title: Text('تحتاج مراجعة ($n)')),
+      body: n == 0
+          ? const EmptyView(icon: Icons.task_alt, title: 'لا توجد منتجات تحتاج مراجعة')
+          : ProductSearchView(
+              initialQuery: const ProductQuery(needsReviewOnly: true, sort: 'sku'),
+              onTap: (p) => openProductDetails(context, p.id),
+            ),
+    );
+  }
 }

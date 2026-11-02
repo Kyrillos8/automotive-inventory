@@ -16,3 +16,5 @@ final modelsProvider =
 final catalogVersionProvider = StateProvider<int>((ref) => 0);
 
 void bumpCatalog(WidgetRef ref) => ref.read(catalogVersionProvider.notifier).state++;
+
+final reviewCountProvider = StreamProvider<int>((ref) => ref.watch(productRepositoryProvider).watchReviewCount());

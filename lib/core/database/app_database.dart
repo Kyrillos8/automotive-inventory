@@ -65,7 +65,7 @@ class AppDatabase extends _$AppDatabase {
 
   /// Bump on every schema change and add a step in [migration].
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -75,11 +75,15 @@ class AppDatabase extends _$AppDatabase {
           await _seedDefaults();
         },
         onUpgrade: (m, from, to) async {
-          // Add steps like: if (from < 2) { await m.addColumn(...); }
+          if (from < 2) {
+            await m.addColumn(products, products.needsReview);
+            await m.addColumn(products, products.reviewNote);
+          }
           // Never drop/recreate tables that hold business data.
         },
         beforeOpen: (details) async {
           await customStatement('PRAGMA foreign_keys = ON');
+          await customStatement('CREATE INDEX IF NOT EXISTS idx_products_review ON products(needs_review)');
         },
       );
 
@@ -91,6 +95,7 @@ class AppDatabase extends _$AppDatabase {
       'CREATE INDEX IF NOT EXISTS idx_products_brand ON products(brand_id)',
       'CREATE INDEX IF NOT EXISTS idx_products_diameter ON products(diameter_mm)',
       'CREATE INDEX IF NOT EXISTS idx_products_active ON products(is_active)',
+      'CREATE INDEX IF NOT EXISTS idx_products_review ON products(needs_review)',
       'CREATE INDEX IF NOT EXISTS idx_product_tags_tag ON product_tags(tag_id, product_id)',
       'CREATE INDEX IF NOT EXISTS idx_compat_model ON vehicle_compatibilities(vehicle_model_id)',
       'CREATE INDEX IF NOT EXISTS idx_compat_product ON vehicle_compatibilities(product_id)',

@@ -63,6 +63,12 @@ flutter analyze && flutter test && flutter build apk --release
 ```
 `lib/core/database/app_database.g.dart` is generated — never edit it, and it is not committed.
 
+## Catalog import & review inbox
+- Real price data is imported on the phone from a private `catalog_import.json` (Settings → استيراد كتالوج). **The repo is public: never commit real prices/catalog data** (`.gitignore` blocks `catalog_import*.json` and `*.xlsx`).
+- Format: `{"format":"auto-parts-catalog","version":1,"items":[{key,kind:ring|piston,brand,make,model,size,dim,code,purchase,wholesale,retail,notes,needsReview,reviewNote,source}]}`; prices in whole EGP. `key` becomes the SKU; re-import skips existing SKUs and never modifies them. Unknown values stay empty/0 — never invent data.
+- `products.needs_review` / `review_note` (schema v2) drive the bell (`ReviewBell`) on Dashboard & Products and the `ReviewInboxScreen`. Product details has "تمت المراجعة"; the form has a toggle.
+- Invoice validation blocks 0-price lines (imported pistons have no wholesale price).
+
 ## Known limitations / backlog
 No biometric unlock, alternative units/conversions, taxes, PDF invoices, CSV import of opening stock,
 barcode scanning, applying customer credit to another invoice. Release APK is debug-signed.
